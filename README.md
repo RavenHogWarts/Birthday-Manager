@@ -3,5 +3,8 @@
 
 可以管理农历生日与公历生日
 
+## 使用方法
+![recording](./Resources/image/recording.gif)
+
 ## 鸣谢
 - [中国农历公历换算算法](https://github.com/mumuy/calendar)

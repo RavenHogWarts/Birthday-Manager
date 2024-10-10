@@ -11,21 +11,11 @@
             "id": "50d8bf5300618807",
             "type": "leaf",
             "state": {
-              "type": "components-file-view",
-              "state": {
-                "file": "Resources/components/basic/生日簿.components"
-              }
-            }
-          },
-          {
-            "id": "952fce3337a4a6c2",
-            "type": "leaf",
-            "state": {
               "type": "markdown",
               "state": {
-                "file": "Resources/template/生日数据模板.md",
+                "file": "README.md",
                 "mode": "source",
-                "source": false
+                "source": true
               }
             }
           }
@@ -95,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Resources/components/basic/生日簿.components",
+                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -112,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Resources/components/basic/生日簿.components",
+                "file": "README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -135,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Resources/components/basic/生日簿.components"
+                "file": "README.md"
               }
             }
           }
@@ -158,8 +148,14 @@
   },
   "active": "50d8bf5300618807",
   "lastOpenFiles": [
-    "README.md",
+    "Resources/image",
+    "Resources/image/recording.gif",
     "Resources/components/basic/生日簿.components",
+    "Birthday/未命名.md",
+    "Birthday/赵云.md",
+    "Birthday/赵云.md",
+    "Birthday/李虎.md",
+    "README.md",
     "Birthday/赵六.md",
     "Birthday/王五.md",
     "Birthday/李四.md",

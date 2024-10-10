@@ -11,22 +11,22 @@
             "id": "50d8bf5300618807",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "components-file-view",
+              "state": {
+                "file": "Resources/components/basic/生日簿.components"
+              }
             }
-          }
-        ]
-      },
-      {
-        "id": "12cd44950fc79e5e",
-        "type": "tabs",
-        "children": [
+          },
           {
-            "id": "a94e1df48292f807",
+            "id": "952fce3337a4a6c2",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "Resources/template/生日数据模板.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -95,6 +95,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Resources/components/basic/生日簿.components",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,6 +112,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Resources/components/basic/生日簿.components",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -132,7 +134,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Resources/components/basic/生日簿.components"
+              }
             }
           }
         ]
@@ -154,6 +158,21 @@
   },
   "active": "50d8bf5300618807",
   "lastOpenFiles": [
+    "README.md",
+    "Resources/components/basic/生日簿.components",
+    "Birthday/赵六.md",
+    "Birthday/王五.md",
+    "Birthday/李四.md",
+    "Resources/components/scripts/calculateNextBirthdayDates.js",
+    "Resources/components/scripts/getDaysUntilNextBirthday.js",
+    "Resources/template/生日数据模板.md",
+    "Resources/template",
+    "Resources",
+    "Birthday/张三.md",
+    "Birthday",
+    "Resources/components/scripts",
+    "Resources/components/basic",
+    "Resources/components",
     "欢迎.md",
     "LICENSE"
   ]

@@ -1,0 +1,171 @@
+{
+  "components": [
+    {
+      "id": "9fc3d95d-dac9-446b-8ad6-7c3646cb855b",
+      "type": "multi",
+      "titleAlign": "center",
+      "tabTitle": "",
+      "maxWidthRatio": -1,
+      "showBorder": true,
+      "showShadow": false,
+      "createAt": "2024-10-10T12:45:57.238Z",
+      "updateAt": "2024-10-10T12:45:57.240Z",
+      "components": [
+        {
+          "componentId": "a1e3c7d2-133f-4f5f-a3d8-e004b1c66166"
+        }
+      ],
+      "layoutType": "column"
+    },
+    {
+      "id": "a1e3c7d2-133f-4f5f-a3d8-e004b1c66166",
+      "type": "dynamicDataView",
+      "titleAlign": "center",
+      "tabTitle": "",
+      "maxWidthRatio": -1,
+      "showBorder": false,
+      "showShadow": false,
+      "createAt": "2024-10-10T12:46:40.515Z",
+      "updateAt": "2024-10-10T12:46:40.515Z",
+      "viewType": "table",
+      "newPageNameFormat": "未命名",
+      "properties": [
+        {
+          "id": "__componentsTitleProperty_0x7c00",
+          "name": "文件名",
+          "type": "text",
+          "isShow": true,
+          "wrap": false,
+          "options": {
+            "width": "129"
+          },
+          "alias": "名称"
+        },
+        {
+          "id": "3f0ca0ed-1a0a-4401-a803-1b756d2d4e56",
+          "name": "birthdaySolar",
+          "isShow": true,
+          "type": "text",
+          "options": {
+            "width": "100"
+          },
+          "alias": "公历生日"
+        },
+        {
+          "id": "6da1c17b-8c12-41cc-9d15-f76d6fdb491e",
+          "name": "birthdayLunar",
+          "isShow": true,
+          "type": "text",
+          "options": {
+            "width": "128"
+          },
+          "alias": "农历生日"
+        },
+        {
+          "id": "ec04f178-a2c6-4ee0-9770-6fb8c9e1ff80",
+          "name": "birthdayType",
+          "isShow": true,
+          "type": "select",
+          "options": {
+            "items": [
+              {
+                "id": "c5e133d9-2b9b-482f-98d2-20f0015d2b0d",
+                "value": "Lunar",
+                "color": "components--color-gray"
+              },
+              {
+                "id": "b6873507-1804-470d-9169-fe17b66b8e56",
+                "value": "Solar",
+                "color": "components--color-light-gray"
+              }
+            ],
+            "width": "77"
+          },
+          "alias": "Type"
+        },
+        {
+          "id": "c31961bb-df30-45c9-8423-dd5529720470",
+          "name": "nextBirthdayDates",
+          "isShow": true,
+          "type": "formula",
+          "options": {
+            "formula": "calculateNextBirthdayDates()",
+            "width": "109"
+          },
+          "alias": "下次生日"
+        },
+        {
+          "id": "479106b4-0dfc-4b6d-87d1-1fa33b2c6714",
+          "name": "daysUntilBirthday",
+          "isShow": true,
+          "type": "formula",
+          "options": {
+            "formula": "getDaysUntilNextBirthday()",
+            "width": "150"
+          },
+          "alias": "距离"
+        }
+      ],
+      "templates": [
+        {
+          "id": "ba9a85ac-b75a-4074-b765-520c33992d58",
+          "path": "Resources/template/生日数据模板.md",
+          "name": "生日数据模板.md",
+          "type": "normal"
+        }
+      ],
+      "groups": [],
+      "colorfulGroups": false,
+      "viewOptions": {
+        "openPageIn": "tab",
+        "openPageAfterCreate": false,
+        "itemSize": "components--page-card-medium",
+        "showPropertyName": false,
+        "hideFileName": false,
+        "wrapFileName": true,
+        "items": [],
+        "cover": {
+          "type": "pageContent",
+          "value": "",
+          "fit": "contains",
+          "layout": "components--page-card-cover-landscape"
+        },
+        "showGrid": true
+      },
+      "filter": {
+        "id": "d8151621-852e-4a3e-9865-c2228abba91a",
+        "type": "group",
+        "operator": "and",
+        "conditions": [
+          {
+            "id": "08063952-a166-4aa6-91a9-08812140b0ab",
+            "type": "filter",
+            "operator": "equals",
+            "property": "${file.path}",
+            "value": "Birthday",
+            "conditions": []
+          }
+        ]
+      },
+      "defaultTemplate": "ba9a85ac-b75a-4074-b765-520c33992d58",
+      "newPageLocation": {
+        "location": "Birthday"
+      },
+      "sort": {
+        "orders": [
+          {
+            "id": "f0df22fd-1c6e-4fcb-9adc-0e94aed5b888",
+            "property": "nextBirthday",
+            "direction": "asc"
+          },
+          {
+            "id": "2eb7f070-83f2-4c64-9d4c-37d36d1d7861",
+            "property": "${file.basename}",
+            "direction": "asc"
+          }
+        ]
+      }
+    }
+  ],
+  "rootComponentId": "9fc3d95d-dac9-446b-8ad6-7c3646cb855b"
+}

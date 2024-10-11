@@ -11,9 +11,11 @@
             "id": "51d94f081fb95eb4",
             "type": "leaf",
             "state": {
-              "type": "components-file-view",
+              "type": "markdown",
               "state": {
-                "file": "Resources/components/basic/生日簿.components"
+                "file": "README.md",
+                "mode": "source",
+                "source": true
               }
             }
           },
@@ -29,8 +31,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -157,15 +158,16 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "c2aa4983554854fb",
+  "active": "453fb9d54277f430",
   "lastOpenFiles": [
+    "Resources/image/011d63e1b4f5dfd414d666d49a3786c.png",
+    "Resources/components/basic/生日簿.components",
+    "README.md",
     "Resources/image/d113f21299cb936f4ddf10e5882310a 1.png",
     "d113f21299cb936f4ddf10e5882310a.png",
-    "Resources/components/basic/生日簿.components",
     "Resources/image/README-7b22783fbb6ae14b58b3a1ea72bfb8b.png",
     "attachment/README-7b22783fbb6ae14b58b3a1ea72bfb8b.png",
     "attachment",
-    "README.md",
     "Resources/image",
     "Resources/image/recording.gif",
     "Birthday/廉颇.md",

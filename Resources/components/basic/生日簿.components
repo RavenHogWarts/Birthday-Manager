@@ -62,6 +62,26 @@
           "alias": "农历生日"
         },
         {
+          "id": "c55ea5c2-d5d5-47a4-8865-dd79cc0fdb34",
+          "name": "animal",
+          "isShow": true,
+          "type": "select",
+          "options": {
+            "width": "100"
+          },
+          "alias": "属相"
+        },
+        {
+          "id": "67e933b2-5739-4d70-b80b-784acd23de16",
+          "name": "zodiac",
+          "isShow": true,
+          "type": "select",
+          "options": {
+            "width": "84"
+          },
+          "alias": "星座"
+        },
+        {
           "id": "ec04f178-a2c6-4ee0-9770-6fb8c9e1ff80",
           "name": "birthdayType",
           "isShow": true,
@@ -90,18 +110,7 @@
           "type": "formula",
           "options": {
             "formula": "calculateNextBirthdayDates()",
-            "width": "109"
-          },
-          "alias": "下次生日"
-        },
-        {
-          "id": "479106b4-0dfc-4b6d-87d1-1fa33b2c6714",
-          "name": "daysUntilBirthday",
-          "isShow": true,
-          "type": "formula",
-          "options": {
-            "formula": "getDaysUntilNextBirthday()",
-            "width": "150"
+            "width": "152"
           },
           "alias": "距离"
         }

@@ -4,11 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "7283fd6d2f579579",
+        "id": "4046143edb4d82f0",
         "type": "tabs",
         "children": [
           {
-            "id": "50d8bf5300618807",
+            "id": "51d94f081fb95eb4",
+            "type": "leaf",
+            "state": {
+              "type": "components-file-view",
+              "state": {
+                "file": "Resources/components/basic/生日簿.components"
+              }
+            }
+          },
+          {
+            "id": "c2aa4983554854fb",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -19,7 +29,8 @@
               }
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -146,16 +157,21 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "50d8bf5300618807",
+  "active": "c2aa4983554854fb",
   "lastOpenFiles": [
+    "Resources/image/d113f21299cb936f4ddf10e5882310a 1.png",
+    "d113f21299cb936f4ddf10e5882310a.png",
+    "Resources/components/basic/生日簿.components",
+    "Resources/image/README-7b22783fbb6ae14b58b3a1ea72bfb8b.png",
+    "attachment/README-7b22783fbb6ae14b58b3a1ea72bfb8b.png",
+    "attachment",
+    "README.md",
     "Resources/image",
     "Resources/image/recording.gif",
-    "Resources/components/basic/生日簿.components",
-    "Birthday/未命名.md",
+    "Birthday/廉颇.md",
     "Birthday/赵云.md",
     "Birthday/赵云.md",
     "Birthday/李虎.md",
-    "README.md",
     "Birthday/赵六.md",
     "Birthday/王五.md",
     "Birthday/李四.md",
@@ -168,8 +184,6 @@
     "Birthday",
     "Resources/components/scripts",
     "Resources/components/basic",
-    "Resources/components",
-    "欢迎.md",
-    "LICENSE"
+    "欢迎.md"
   ]
 }

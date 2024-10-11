@@ -1,4 +1,7 @@
 {
   "alwaysUpdateLinks": true,
-  "showUnsupportedFiles": true
+  "showUnsupportedFiles": true,
+  "useMarkdownLinks": true,
+  "newLinkFormat": "absolute",
+  "promptDelete": false
 }

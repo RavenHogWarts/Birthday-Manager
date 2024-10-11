@@ -112,11 +112,26 @@ async function calculateNextBirthdayDates() {
   }
 
   const formatNextBirthday = getDateString(nextBirthday.sYear, nextBirthday.sMonth, nextBirthday.sDay);
-  // console.log("下一次的生日是：", formatNextBirthday);
+
+  const birthdayLunarYear = parseInt(birthdayLunar.match(/(\d{4})年/)[1], 10);;
+  const birthdaySolarMonth = new Date(birthdaySolar).getMonth() + 1;
+  const birthdaySolarDay = new Date(birthdaySolar).getDate();
+
+  const ganzhi = getGanZhiYear(birthdayLunarYear);
+  const animal = getAnimalYear(birthdayLunarYear);
+  const zodiac = getZodiac(birthdaySolarMonth, birthdaySolarDay);
+
+  const birthdayDate = new Date(birthdaySolar);
+  const nextBirthdayDate = new Date(formatNextBirthday);
+  const daysUntilNextBirthday = Math.ceil((nextBirthdayDate - new Date()) / (1000 * 60 * 60 * 24));
+  const nextAge = nextBirthdayDate.getFullYear() - birthdayDate.getFullYear();
+
   updateFrontMatter(file, (frontmatter) => {
     frontmatter["nextBirthday"] = formatNextBirthday;
+    frontmatter["animal"] = `${ganzhi}年 ${animal}`;
+    frontmatter["zodiac"] = zodiac;
   });
-  return formatNextBirthday;
+  return `${nextAge}岁生日还有${daysUntilNextBirthday}天`;
 }
 
 function updateFrontMatter(file, updateFrontmatterFunc) {
@@ -304,4 +319,40 @@ function getLunarByTimestamp(timestamp){
       lMonthZH:(isLeap?'闰':'')+monthMap[lMonth-1]+'月',
       lDayZH:dayMap[lDay-1]
   };
+}
+
+// 干支纪年
+const ganMap = ['甲','乙','丙','丁','戊','己','庚','辛','壬','癸'];
+const zhiMap = ['子','丑','寅','卯','辰','巳','午','未','申','酉','戌','亥'];
+// 获取干支年: 1984年为甲子年
+function getGanZhiYear(lYear){
+  let gzIndex = lYear - 1984;
+  gzIndex = gzIndex%60>0?gzIndex%60:gzIndex%60+60;
+  let gan = gzIndex%10;
+  let zhi = gzIndex%12;
+  return ganMap[gan]+zhiMap[zhi];
+}
+
+// 12生肖
+const animalMap = ['鼠','牛','虎','兔','龙','蛇','马','羊','猴','鸡','狗','猪'];
+// 获取生肖纪年: 1984年为鼠年
+function getAnimalYear(sYear){
+  let diff = sYear - 1984;
+  let animal = diff%12;
+  return animalMap[animal>-1?animal:animal+12];
+}
+
+// 星座
+const zodiacMap = ['水瓶','双鱼','白羊','金牛','双子','巨蟹','狮子','处女','天秤','天蝎','射手','摩羯'];
+const zodiacDate = [20,19,21,20,21,22,23,23,23,24,23,22];
+// 获取星座
+function getZodiac(sMonth,sDay){
+  let zoIndex = 11;
+  zodiacDate.forEach(function(day,index){
+      let month = index+1;
+      if(getDateString(sMonth,sDay)>=getDateString(month,day)){
+          zoIndex = index%12;
+      }
+  });
+  return zodiacMap[zoIndex]+'座';
 }

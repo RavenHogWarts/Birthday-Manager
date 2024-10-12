@@ -28,7 +28,7 @@
       "createAt": "2024-10-10T12:46:40.515Z",
       "updateAt": "2024-10-10T12:46:40.515Z",
       "viewType": "table",
-      "newPageNameFormat": "未命名",
+      "newPageNameFormat": "{{date: YYYYMMDDHHmmss}}",
       "properties": [
         {
           "id": "__componentsTitleProperty_0x7c00",
@@ -37,7 +37,7 @@
           "isShow": true,
           "wrap": false,
           "options": {
-            "width": "129"
+            "width": "157"
           },
           "alias": "名称"
         },
@@ -57,7 +57,7 @@
           "isShow": true,
           "type": "text",
           "options": {
-            "width": "128"
+            "width": "180"
           },
           "alias": "农历生日"
         },
@@ -89,19 +89,50 @@
           "options": {
             "items": [
               {
-                "id": "c5e133d9-2b9b-482f-98d2-20f0015d2b0d",
-                "value": "Lunar",
+                "id": "b7cba443-946c-4ff4-a39e-6169c97c9d34",
+                "value": "公历",
+                "color": "components--color-pink"
+              },
+              {
+                "id": "9dee4f3a-1aaf-4030-95b8-fe559ace56a6",
+                "value": "农历",
                 "color": "components--color-gray"
               },
               {
                 "id": "b6873507-1804-470d-9169-fe17b66b8e56",
                 "value": "Solar",
                 "color": "components--color-light-gray"
+              },
+              {
+                "id": "c5e133d9-2b9b-482f-98d2-20f0015d2b0d",
+                "value": "Lunar",
+                "color": "components--color-gray"
               }
             ],
             "width": "77"
           },
-          "alias": "Type"
+          "alias": "类型"
+        },
+        {
+          "id": "87dae5b2-ba69-4c8e-b432-1262f257bcd6",
+          "name": "nextBirthdayString",
+          "isShow": true,
+          "type": "markdown",
+          "options": {
+            "width": "371"
+          },
+          "alias": "下次生日",
+          "wrap": true
+        },
+        {
+          "id": "82750612-fb54-4c84-86b6-fa321d2a4f1b",
+          "name": "nextBirthday",
+          "isShow": false,
+          "type": "text",
+          "options": {
+            "width": "123"
+          },
+          "alias": "下次生日"
         },
         {
           "id": "c31961bb-df30-45c9-8423-dd5529720470",
@@ -110,9 +141,10 @@
           "type": "formula",
           "options": {
             "formula": "calculateNextBirthdayDates()",
-            "width": "152"
+            "width": "157"
           },
-          "alias": "距离"
+          "alias": "距离",
+          "wrap": false
         }
       ],
       "templates": [

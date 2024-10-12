@@ -5,9 +5,9 @@ exports.default = {
   根据公历生日或农历生日，计算下一个生日日期。
   # 文档属性
   你的文档需要包含以下属性：
-  - \`birthdaySolar\`: 公历生日，必填属性，格式为 "YYYY-MM-DD", 
-  - \`birthdayLunar\`: 农历生日，可填属性，格式为 "YYYY年MM月DD日 (农历)"，如2024年腊月廿一, 没有会根据公历生日自动生成
-  - \`birthdayType\`: 生日类型，可填属性，有 "Lunar" 和 "Solar" 两种，没有设置程序默认为 "Solar"
+  - \`birthdaySolar\`: 公历生日，格式为 "YYYY-MM-DD", 如2004-12-21
+  - \`birthdayLunar\`: 农历生日，格式为 "YYYY年MM月DD日"，全中文，如二〇〇四年腊月廿一
+  - \`birthdayType\`: 生日类型，有 "Lunar","Solar" (或"农历","公历") 两种
   # 映射表
   - \`农历月映射表\`：['正','二','三','四','五','六','七','八','九','十','冬','腊']
   - \`农历日映射表\`：['初一','初二','初三','初四','初五','初六','初七','初八','初九','初十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十','廿一','廿二','廿三','廿四','廿五','廿六','廿七','廿八','廿九','三十'];
@@ -19,125 +19,228 @@ async function calculateNextBirthdayDates() {
   const metadata = app.metadataCache.getFileCache(file);
   const frontmatter = metadata?.frontmatter;
 
-  const birthdaySolar = frontmatter?.["birthdaySolar"];
+  let birthdaySolar = frontmatter?.["birthdaySolar"];
   let birthdayLunar = frontmatter?.["birthdayLunar"];
   const birthdayType = frontmatter?.["birthdayType"];
-
   let nextBirthday;
 
-  if(birthdaySolar){
-    // 从公历生日转换并更新农历生日
-    const [solarYear, solarMonth, solarDay] = birthdaySolar.split("-").map(Number);
-    const timestamp = getTimestampBySolar(solarYear, solarMonth, solarDay);
-    const lunarBirthday = getLunarByTimestamp(timestamp);
-
-    // 生成农历中文格式，处理闰月情况
-    const lunarMonthText = lunarBirthday.isLeap ? `闰${monthMap[lunarBirthday.lMonth - 1]}` : monthMap[lunarBirthday.lMonth - 1];
-    const lunarBirthdayString = `${lunarBirthday.lYear}年${lunarMonthText}月${dayMap[lunarBirthday.lDay - 1]}`;
-
-    // 更新农历生日到 frontmatter
-    updateFrontMatter(file, (frontmatter) => {
-      frontmatter["birthdayLunar"] = lunarBirthdayString;
-    });
-    birthdayLunar = lunarBirthdayString; // 赋值以继续后续逻辑
-  }else if(!birthdaySolar && birthdayLunar){
-    const [lunarYear, lunarMonthText, lunarDayText] = birthdayLunar.match(/(\d{4})年(闰?[^月]+)月(.+)/).slice(1);
-    const isLeap = lunarMonthText.startsWith("闰");
-    const lunarMonth = monthMap.indexOf(lunarMonthText.replace("闰", "")) + 1;
-    const lunarDay = dayMap.indexOf(lunarDayText) + 1;
-
-    const timestamp = getTimestampByLunar(lunarYear, lunarMonth, lunarDay, isLeap);
-    const solarBirthday = getSolarByTimestamp(timestamp);
-
-    const solarBirthdayString = `${solarBirthday.sYear}-${String(solarBirthday.sMonth).padStart(2, "0")}-${String(solarBirthday.sDay).padStart(2, "0")}`;
+  if(birthdaySolar && (birthdayType == "Solar" || birthdayType == "公历")){
+    const lunarBirthday = convertSolarToLunar(birthdaySolar, "Zh");
+    let [formatNextBirthday, nextLunarBirthday] = getNextSolarBirthday(birthdaySolar);
 
     updateFrontMatter(file, (frontmatter) => {
-      frontmatter["birthdaySolar"] = solarBirthdayString;
+      frontmatter["birthdayLunar"] = lunarBirthday;
+      frontmatter["nextBirthday"] = formatNextBirthday;
+      frontmatter["nextBirthdayString"] = `公历：${formatNextBirthday} <span style=\"color:#086ddd\">（对应农历：${nextLunarBirthday}）</span>`;
     });
-    birthdaySolar = solarBirthdayString;
+  }
+  else if(birthdayLunar && (birthdayType == "Lunar" || birthdayType == "农历")){
+    const solarBirthday = convertLunarToSolar(birthdayLunar.replace("零", "〇"), "Zh");
+    let [formatNextBirthday, nextLunarBirthday] = getNextLunarBirthday(birthdayLunar);
+
+    updateFrontMatter(file, (frontmatter) => {
+      frontmatter["birthdaySolar"] = solarBirthday;
+      frontmatter["nextBirthday"] = formatNextBirthday;
+      frontmatter["nextBirthdayString"] = `公历：${formatNextBirthday} <span style=\"color:#086ddd\">（对应农历：${nextLunarBirthday}）</span>`;
+    });
+  }
+  else{
+    return "请根据生日类型填写对应生日日期";
   }
 
-  switch (birthdayType) {
-    case "Lunar":
-      // 解析已存在的农历生日，转换为标准日期格式
-      const [lunarYear, lunarMonthText, lunarDayText] = birthdayLunar.match(/(\d{4})年(闰?[^月]+)月(.+)/).slice(1);
-      const isLeap = lunarMonthText.startsWith("闰");
-      const lunarMonth = monthMap.indexOf(lunarMonthText.replace("闰", "")) + 1;
-      const lunarDay = dayMap.indexOf(lunarDayText) + 1;
+  // 更新
+  birthdaySolar = frontmatter?.["birthdaySolar"];
+  birthdayLunar = frontmatter?.["birthdayLunar"].replace("零", "〇");
+  nextBirthday = frontmatter?.["nextBirthday"];
 
-      const currentTimestamp = Date.now();
-      const currentLunar = getLunarByTimestamp(currentTimestamp);
-
-      let nextLunarYear = currentLunar.lYear;
-
-      if (
-        lunarMonth < currentLunar.lMonth ||
-        (lunarMonth === currentLunar.lMonth && lunarDay <= currentLunar.lDay)
-      ) {
-        nextLunarYear += 1;
-      }
-
-      const nextLunarTimestamp = getTimestampByLunar(
-        nextLunarYear,
-        lunarMonth,
-        lunarDay,
-        false // 农历生日的计算不处理闰月
-      );
-
-      nextBirthday = getSolarByTimestamp(nextLunarTimestamp);
-      // nextBirthday.date = `${nextBirthday.date} (农历)`;
-      // 检查农历月是否有三十日，如果没有，则调整到廿九
-      const lunarMonthDays = getLunarMonthDays(nextLunarYear, lunarMonth, getLeapMonth(nextLunarYear));
-      if (lunarDay > lunarMonthDays) {
-        nextBirthday.sDay -= 1;
-      }
-      break;
-    case "Solar":
-    default:
-      const [solarYear, solarMonth, solarDay] = birthdaySolar.split("-").map(Number);
-      const now = new Date();
-      const currentYear = now.getFullYear();
-
-      let nextYear = currentYear;
-      if (now.getMonth() + 1 > solarMonth || (now.getMonth() + 1 === solarMonth && now.getDate() > solarDay)) {
-        nextYear += 1;
-      }
-
-      nextBirthday = {
-        sYear: nextYear,
-        sMonth: solarMonth,
-        sDay: solarDay,
-      };
-      break;
-  }
-
-  const formatNextBirthday = getDateString(nextBirthday.sYear, nextBirthday.sMonth, nextBirthday.sDay);
-
-  const birthdayLunarYear = parseInt(birthdayLunar.match(/(\d{4})年/)[1], 10);;
-  const birthdaySolarMonth = new Date(birthdaySolar).getMonth() + 1;
-  const birthdaySolarDay = new Date(birthdaySolar).getDate();
-
-  const ganzhi = getGanZhiYear(birthdayLunarYear);
-  const animal = getAnimalYear(birthdayLunarYear);
-  const zodiac = getZodiac(birthdaySolarMonth, birthdaySolarDay);
-
-  const birthdayDate = new Date(birthdaySolar);
-  const nextBirthdayDate = new Date(formatNextBirthday);
-  const daysUntilNextBirthday = Math.ceil((nextBirthdayDate - new Date()) / (1000 * 60 * 60 * 24));
-  const nextAge = nextBirthdayDate.getFullYear() - birthdayDate.getFullYear();
+  const animal = getAnimalByLunar(birthdayLunar);
+  const zodiac = getZodiacBySolar(birthdaySolar);
 
   updateFrontMatter(file, (frontmatter) => {
-    frontmatter["nextBirthday"] = formatNextBirthday;
-    frontmatter["animal"] = `${ganzhi}年 ${animal}`;
+    frontmatter["animal"] = animal;
     frontmatter["zodiac"] = zodiac;
   });
-  return `${nextAge}岁生日还有${daysUntilNextBirthday}天`;
+
+  return getDaysUntilNextBirthday(birthdaySolar, nextBirthday);
 }
 
 function updateFrontMatter(file, updateFrontmatterFunc) {
   app.fileManager.processFrontMatter(file, (frontmatter) => {
-    updateFrontmatterFunc(frontmatter);
+      updateFrontmatterFunc(frontmatter);
   });
+}
+
+// 数字与中文映射
+const yearZhMap = ['〇', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+// 获取中文年份
+function getYearZh(year){
+  return String(year).split('').map(num => yearZhMap[Number(num)]).join('');
+}
+// 获取数字年份
+function getYearNum(zhYear){
+  return parseInt(zhYear.split('').map(char => yearZhMap.indexOf(char)).join(''), 10);
+}
+
+// 解析农历日期（数字年份）
+function parseLunarDateNumYear(lunarDate){
+  const [lunarYearText, lunarMonthText, lunarDayText] = lunarDate.match(/(\d{4})年(闰?[^月]+)月(.+)/).slice(1);
+  const lunarYear = getYearNum(lunarYearText);
+  const lunarMonth = monthMap.indexOf(lunarMonthText.replace("闰", "")) + 1;
+  const lunarDay = dayMap.indexOf(lunarDayText) + 1;
+  const isLeap = monthText.startsWith("闰");
+
+  const lunarDateObj = {
+    year: lunarYear,
+    month: lunarMonth,
+    day: lunarDay,
+    isLeap: isLeap,
+  };
+  return lunarDateObj;
+}
+// 解析农历日期（中文年份）
+function parseLunarDateZhYear(lunarDate){
+  const [lunarYearText, lunarMonthText, lunarDayText] = lunarDate.match(/(.+)年(闰?[^月]+)月(.+)/).slice(1);
+  const lunarYear = getYearNum(lunarYearText);
+  const lunarMonth = monthMap.indexOf(lunarMonthText.replace("闰", "")) + 1;
+  const lunarDay = dayMap.indexOf(lunarDayText) + 1;
+  const isLeap = lunarMonthText.startsWith("闰");
+
+  const lunarDateObj = {
+    year: lunarYear,
+    month: lunarMonth,
+    day: lunarDay,
+    isLeap: isLeap,
+  };
+  return lunarDateObj;
+}
+
+// 从公历日期转换为农历日期
+function convertSolarToLunar(solarDate, lunarYearType = "Num"){
+  const [solarYear, solarMonth, solarDay] = solarDate.split("-").map(Number);
+  const timestamp = getTimestampBySolar(solarYear, solarMonth, solarDay);
+  const lunarDate = getLunarByTimestamp(timestamp);
+
+  let lunarYearText = lunarDate.lYear;
+
+  if(lunarYearType == "Zh"){
+    lunarYearText = getYearZh(lunarDate.lYear);
+  }
+
+  const lunarMonthText = lunarDate.isLeap ? `闰${monthMap[lunarDate.lMonth - 1]}` : monthMap[lunarDate.lMonth - 1];
+  const lunarDayText = dayMap[lunarDate.lDay - 1];
+
+  const lunarDateString = `${lunarYearText}年${lunarMonthText}月${lunarDayText}`;
+
+  return lunarDateString;
+}
+// 从农历日期转换为公历日期
+function convertLunarToSolar(lunarDate, lunarYearType = "Num"){
+  let lunarDateObj;
+  if(lunarYearType == "Zh"){
+    lunarDateObj = parseLunarDateZhYear(lunarDate);
+  }else if(lunarYearType == "Num"){
+    lunarDateObj = parseLunarDateNumYear(lunarDate);
+  }
+
+  const timestamp = getTimestampByLunar(lunarDateObj.year, lunarDateObj.month, lunarDateObj.day, lunarDateObj.isLeap);
+  const solarDate = getSolarByTimestamp(timestamp);
+
+  const solarDateString = `${solarDate.sYear}-${String(solarDate.sMonth).padStart(2, "0")}-${String(solarDate.sDay).padStart(2, "0")}`;
+
+  return solarDateString;
+}
+
+// 获取下一个生日
+function getNextSolarBirthday(birthdaySolar){
+  // 获取下一个公历生日并更新
+  const [solarYear, solarMonth, solarDay] = birthdaySolar.split("-").map(Number);
+  const now = new Date();
+  const currentYear = now.getFullYear();
+
+  let nextYear = currentYear;
+  if (now.getMonth() + 1 > solarMonth || (now.getMonth() + 1 === solarMonth && now.getDate() > solarDay)) {
+    nextYear += 1;
+  }
+
+  const nextSolarBirthday = {
+    sYear: nextYear,
+    sMonth: solarMonth,
+    sDay: solarDay,
+  };
+
+  const nextLunarBirthday = convertSolarToLunar(nextSolarBirthday.sYear + "-" + nextSolarBirthday.sMonth + "-" + nextSolarBirthday.sDay, "Zh");
+
+  const formatNextBirthday = getDateString(nextSolarBirthday.sYear, nextSolarBirthday.sMonth, nextSolarBirthday.sDay);
+
+  return [formatNextBirthday, nextLunarBirthday];
+}
+function getNextLunarBirthday(birthdayLunar){
+  // 获取下一个农历生日并更新
+  const lunarDateObj = parseLunarDateZhYear(birthdayLunar);
+
+  const currentTimestamp = Date.now();
+  const currentLunar = getLunarByTimestamp(currentTimestamp);
+
+  let nextLunarYear = currentLunar.lYear;
+  if (
+    lunarDateObj.month < currentLunar.lMonth ||
+    (lunarDateObj.month === currentLunar.lMonth && lunarDateObj.day <= currentLunar.lDay)
+  ) {
+    nextLunarYear += 1;
+  }
+
+  const nextLunarTimestamp = getTimestampByLunar(
+    nextLunarYear,
+    lunarDateObj.month,
+    lunarDateObj.day,
+    false // 农历生日的计算不处理闰月
+  );
+
+  let nextSolarBirthday = getSolarByTimestamp(nextLunarTimestamp);
+  
+  // 检查农历月是否有三十日，如果没有，则调整到廿九
+  const lunarMonthDays = getLunarMonthDays(nextLunarYear, lunarDateObj.month, getLeapMonth(nextLunarYear));
+  if (lunarDateObj.day > lunarMonthDays) {
+    nextSolarBirthday.sDay -= 1;
+  }
+
+  const nextLunarBirthday = convertSolarToLunar(nextSolarBirthday.sYear + "-" + nextSolarBirthday.sMonth + "-" + nextSolarBirthday.sDay, "Zh");
+
+  const formatNextBirthday = getDateString(nextSolarBirthday.sYear, nextSolarBirthday.sMonth, nextSolarBirthday.sDay);
+
+  return [formatNextBirthday, nextLunarBirthday];
+}
+
+function getAnimalByLunar(birthdayLunar){
+  // 根据农历生日获取生肖
+  const lunarDateObj = parseLunarDateZhYear(birthdayLunar);
+  const lunarYear = lunarDateObj.year;
+
+  const ganzhi = getGanZhiYear(lunarYear);
+  const animal = getAnimalYear(lunarYear);
+  const chineseZodiac = `${ganzhi}年 ${animal}`;
+
+  return chineseZodiac;
+}
+
+function getZodiacBySolar(birthdaySolar){
+  // 根据公历生日获取星座
+  const [solarYear, solarMonth, solarDay] = birthdaySolar.split("-").map(Number);
+  const zodiac = getZodiac(solarMonth, solarDay);
+
+  return zodiac;
+}
+
+function getDaysUntilNextBirthday(birthdaySolar, nextBirthday){
+  const birthdayDate = new Date(birthdaySolar);
+  const nextBirthdayDate = new Date(nextBirthday);
+  const now = new Date();
+  const diff = nextBirthdayDate - now;
+  const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+  const nextAge = nextBirthdayDate.getFullYear() - birthdayDate.getFullYear();
+
+  const String = `${nextAge}岁生日还有${days}天`;
+  return String;
 }
 
 /*
@@ -256,13 +359,13 @@ function getTimestampByLunar(lYear,lMonth,lDay,isLeap){
   if(isLeap&&leapMonth!=lMonth){
       return null;
   }
+  let data = parseInt(monthData[lYear - minYear],32);
   let days = (isLeap?data&1<<16:1<<(17-lMonth))?30:29;
   if(lDay>days){
       return null;
   }
   // 时间戳获取
   let offset = 0;
-  let data = parseInt(monthData[lYear - minYear],32);
   for(let year=minYear;year<lYear;year++){
       offset += getLunarYearDays(year);
   }

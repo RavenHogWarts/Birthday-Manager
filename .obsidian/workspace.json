@@ -4,19 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "b4f89bff41bf74a5",
+        "id": "8ae6f2cc08c081d1",
         "type": "tabs",
         "children": [
           {
-            "id": "685774753f28423b",
+            "id": "a52a83e607fb835f",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "README.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "新标签页"
             }
           }
         ]
@@ -39,7 +37,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
             }
           },
           {
@@ -54,7 +54,9 @@
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
             }
           },
           {
@@ -62,7 +64,9 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {}
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
             }
           }
         ]
@@ -85,7 +89,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "README.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -93,7 +96,9 @@
                 "searchQuery": "",
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-coming-in",
+              "title": "反向链接"
             }
           },
           {
@@ -102,10 +107,11 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "README.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-going-out",
+              "title": "出链"
             }
           },
           {
@@ -116,7 +122,9 @@
               "state": {
                 "sortOrder": "frequency",
                 "useHierarchy": true
-              }
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
             }
           },
           {
@@ -124,9 +132,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "README.md"
-              }
+              "state": {},
+              "icon": "lucide-list",
+              "title": "大纲"
             }
           }
         ]
@@ -146,8 +154,11 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "685774753f28423b",
+  "active": "a52a83e607fb835f",
   "lastOpenFiles": [
+    "Resources/image/Clip_2024-10-12_21-23-08.png",
+    "README.md",
+    "Birthday-Manager.zip",
     "Resources/image/recording.gif",
     "Resources/components/basic/生日簿.components",
     "Birthday/王五.md",
@@ -158,10 +169,8 @@
     "Birthday/张三.md",
     "Birthday/赵虎.md",
     "Birthday/杨沫.md",
-    "README.md",
     "Resources/image/d113f21299cb936f4ddf10e5882310a 1.png",
     "Resources/image/011d63e1b4f5dfd414d666d49a3786c.png",
-    "Resources/image/Clip_2024-10-12_21-23-08.png",
     "Resources/template/生日数据模板.md",
     "Birthday/成龙.md",
     "Birthday/李雷.md",
@@ -186,7 +195,6 @@
     "Resources",
     "Birthday",
     "Resources/components/scripts",
-    "Resources/components/basic",
     "欢迎.md"
   ]
 }

@@ -31,7 +31,7 @@ async function calculateNextBirthdayDates() {
     updateFrontMatter(file, (frontmatter) => {
       frontmatter["birthdayLunar"] = lunarBirthday;
       frontmatter["nextBirthday"] = formatNextBirthday;
-      frontmatter["nextBirthdayString"] = `公历：${formatNextBirthday} <span style=\"color:#086ddd\">（对应农历：${nextLunarBirthday}）</span>`;
+      frontmatter["nextBirthdayString"] = `公历：${formatNextBirthday} <span style=\"color:#086ddd\">（农历：${nextLunarBirthday}）</span>`;
     });
   }
   else if(birthdayLunar && (birthdayType == "Lunar" || birthdayType == "农历")){
@@ -41,7 +41,7 @@ async function calculateNextBirthdayDates() {
     updateFrontMatter(file, (frontmatter) => {
       frontmatter["birthdaySolar"] = solarBirthday;
       frontmatter["nextBirthday"] = formatNextBirthday;
-      frontmatter["nextBirthdayString"] = `公历：${formatNextBirthday} <span style=\"color:#086ddd\">（对应农历：${nextLunarBirthday}）</span>`;
+      frontmatter["nextBirthdayString"] = `公历：${formatNextBirthday} <span style=\"color:#086ddd\">（农历：${nextLunarBirthday}）</span>`;
     });
   }
   else{

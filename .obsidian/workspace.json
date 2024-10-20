@@ -4,17 +4,19 @@
     "type": "split",
     "children": [
       {
-        "id": "8ae6f2cc08c081d1",
+        "id": "8b3c90dbfb06dffd",
         "type": "tabs",
         "children": [
           {
-            "id": "a52a83e607fb835f",
+            "id": "90cfe7cfa40a292c",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
-              "icon": "lucide-file",
-              "title": "新标签页"
+              "type": "components-file-view",
+              "state": {
+                "file": "Resources/components/basic/生日簿.components"
+              },
+              "icon": "gantt-chart",
+              "title": "生日簿"
             }
           }
         ]
@@ -73,7 +75,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 249.5
   },
   "right": {
     "id": "4cf275b64dfc087a",
@@ -154,26 +156,35 @@
       "command-palette:打开命令面板": false
     }
   },
-  "active": "a52a83e607fb835f",
+  "active": "90cfe7cfa40a292c",
   "lastOpenFiles": [
+    "Resources/components/basic/生日簿.components",
+    "Birthday/20241020231300 .md",
+    "Birthday/20241020231148 .md",
+    "Birthday/赵虎.md",
+    "Birthday/杨沫.md",
+    "Birthday/李雷.md",
+    "Birthday/成龙.md",
+    "Birthday/张飞.md",
+    "Birthday/赵六.md",
+    "Birthday/王五.md",
+    "Birthday/李四.md",
+    "Birthday/张三.md",
+    "Birthday/李四.md",
+    "Birthday/张三.md",
+    "Resources/components/basic/生日管理簿.components",
+    "未命名",
     "Resources/image/Clip_2024-10-12_21-23-08.png",
     "README.md",
     "Birthday-Manager.zip",
     "Resources/image/recording.gif",
-    "Resources/components/basic/生日簿.components",
     "Birthday/王五.md",
-    "Birthday/李四.md",
     "Birthday/张三.md",
     "Birthday/张三.md",
-    "Birthday/张飞.md",
     "Birthday/张三.md",
-    "Birthday/赵虎.md",
-    "Birthday/杨沫.md",
     "Resources/image/d113f21299cb936f4ddf10e5882310a 1.png",
     "Resources/image/011d63e1b4f5dfd414d666d49a3786c.png",
     "Resources/template/生日数据模板.md",
-    "Birthday/成龙.md",
-    "Birthday/李雷.md",
     "Birthday/该机.md",
     "Birthday/赵六.md",
     "Birthday/利好.md",
@@ -186,15 +197,9 @@
     "Birthday/廉颇.md",
     "Birthday/赵云.md",
     "Birthday/赵云.md",
-    "Birthday/李虎.md",
-    "Birthday/王五.md",
-    "Birthday/李四.md",
     "Resources/components/scripts/calculateNextBirthdayDates.js",
     "Resources/components/scripts/getDaysUntilNextBirthday.js",
     "Resources/template",
-    "Resources",
-    "Birthday",
-    "Resources/components/scripts",
-    "欢迎.md"
+    "Resources"
   ]
 }

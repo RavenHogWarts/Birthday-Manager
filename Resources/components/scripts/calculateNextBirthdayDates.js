@@ -35,7 +35,8 @@ async function calculateNextBirthdayDates() {
     });
   }
   else if(birthdayLunar && (birthdayType == "Lunar" || birthdayType == "农历")){
-    const solarBirthday = convertLunarToSolar(birthdayLunar.replace("零", "〇"), "Zh");
+    birthdayLunar = birthdayLunar.replace(/零/g, "〇");
+    const solarBirthday = convertLunarToSolar(birthdayLunar, "Zh");
     let [formatNextBirthday, nextLunarBirthday] = getNextLunarBirthday(birthdayLunar);
 
     updateFrontMatter(file, (frontmatter) => {
@@ -50,7 +51,7 @@ async function calculateNextBirthdayDates() {
 
   // 更新
   birthdaySolar = frontmatter?.["birthdaySolar"];
-  birthdayLunar = frontmatter?.["birthdayLunar"].replace("零", "〇");
+  birthdayLunar = frontmatter?.["birthdayLunar"].replace(/零/g, "〇");
   nextBirthday = frontmatter?.["nextBirthday"];
 
   const animal = getAnimalByLunar(birthdayLunar);

@@ -1,8 +1,17 @@
 ## 生日管理器
 本库使用[components](https://cp.cc1234.cc/)插件探讨管理生日的可能方案。
-![](Resources/image/Clip_2024-11-02_19-18-14.png)
+![](Resources/image/3.0-preview.png)
 
 可以管理农历生日与公历生日
+
+### 前情提要
+components插件为付费插件，需要购买激活后才能使用本库。
+
+因激活密钥隐私，本库未上传data.json文件，需重新激活。
+
+脚本目录需要设置为`Resources/components/scripts`
+
+![](Resources/image/setting.png)
 
 ## 介绍
 ### 文档属性
@@ -25,7 +34,13 @@
 ## 使用方法
 选择生日类型，并输入对应类型的生日，脚本将自动计算下个生日、生肖、星座等信息。
 
-![](Resources/image/recording.gif)
+![](Resources/image/usage.gif)
+
+## 如何下载
+点击右上角的"Code"按钮，选择"Download ZIP"下载压缩包。
+
+![](Resources/image/download.gif)
+
 ## 鸣谢
 - [中国农历公历换算算法](https://github.com/mumuy/calendar)
 - [components](https://cp.cc1234.cc/)

@@ -24,25 +24,40 @@ async function calculateNextBirthdayDates() {
   const birthdayType = frontmatter?.["birthdayType"];
   let nextBirthday;
 
+  const now = new Date();
+  const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+
   if(birthdaySolar && (birthdayType == "Solar" || birthdayType == "公历")){
     const lunarBirthday = convertSolarToLunar(birthdaySolar, "Zh");
     let [formatNextBirthday, nextLunarBirthday] = getNextSolarBirthday(birthdaySolar);
+    let nextBirthdayString = `<span class=\"components--tag  components--color-purple\">公历：${formatNextBirthday}</span><span class=\"components--tag  components--color-green\">农历：${nextLunarBirthday}</span>`;
+
+    if(isTodayBirthday(birthdaySolar, birthdayType)){
+      nextBirthdayString = `<span class=\"components--tag  components--color-orange\">今天生日！</span>${nextBirthdayString}`;
+      formatNextBirthday = today;
+    }
 
     updateFrontMatter(file, (frontmatter) => {
       frontmatter["birthdayLunar"] = lunarBirthday;
       frontmatter["nextBirthday"] = formatNextBirthday;
-      frontmatter["nextBirthdayString"] = `公历：${formatNextBirthday} <span style=\"color:#086ddd\">（农历：${nextLunarBirthday}）</span>`;
+      frontmatter["nextBirthdayString"] = `<div class=\"components--space components--flex-row\" style=\"gap: 4px;\">${nextBirthdayString}</div>`;
     });
   }
   else if(birthdayLunar && (birthdayType == "Lunar" || birthdayType == "农历")){
     birthdayLunar = birthdayLunar.replace(/零/g, "〇");
     const solarBirthday = convertLunarToSolar(birthdayLunar, "Zh");
     let [formatNextBirthday, nextLunarBirthday] = getNextLunarBirthday(birthdayLunar);
+    let nextBirthdayString = `<span class=\"components--tag  components--color-purple\">公历：${formatNextBirthday}</span><span class=\"components--tag  components--color-green\">农历：${nextLunarBirthday}</span>`;
+
+    if(isTodayBirthday(birthdayLunar, birthdayType)){
+      nextBirthdayString = `<span class=\"components--tag  components--color-yellow\">今天生日！</span>${nextBirthdayString}`;
+      formatNextBirthday = today;
+    }
 
     updateFrontMatter(file, (frontmatter) => {
       frontmatter["birthdaySolar"] = solarBirthday;
       frontmatter["nextBirthday"] = formatNextBirthday;
-      frontmatter["nextBirthdayString"] = `公历：${formatNextBirthday} <span style=\"color:#086ddd\">（农历：${nextLunarBirthday}）</span>`;
+      frontmatter["nextBirthdayString"] = `<div class=\"components--space components--flex-row\" style=\"gap: 4px;\">${nextBirthdayString}</div>`;
     });
   }
   else{
@@ -69,6 +84,26 @@ function updateFrontMatter(file, updateFrontmatterFunc) {
   app.fileManager.processFrontMatter(file, (frontmatter) => {
       updateFrontmatterFunc(frontmatter);
   });
+}
+
+// 判断今天是否是生日
+function isTodayBirthday(birthdayDate, birthdayType){
+  const now = new Date();
+  const todaySolarString = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")}`;
+  const todayTimestamp = getTimestampBySolar(now.getFullYear(), now.getMonth() + 1, now.getDate());
+  const todayLunarDateObj = getLunarByTimestamp(todayTimestamp);
+
+  switch(birthdayType){
+    case "Solar":
+    case "公历":
+      const [solarYear, solarMonth, solarDay] = birthdayDate.split("-").map(Number);
+      const [todayYear, todayMonth, todayDay] = todaySolarString.split("-").map(Number);
+      return todayMonth === solarMonth && todayDay === solarDay;
+    case "Lunar":
+    case "农历":
+      const lunarDateObj = parseLunarDateZhYear(birthdayDate);
+      return todayLunarDateObj.lMonth === lunarDateObj.month && todayLunarDateObj.lDay === lunarDateObj.day;
+  }
 }
 
 // 数字与中文映射

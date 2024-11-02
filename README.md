@@ -1,6 +1,6 @@
 ## 生日管理器
 本库使用[components](https://cp.cc1234.cc/)插件探讨管理生日的可能方案。
-![](Resources/image/Clip_2024-10-12_21-23-08.png)
+![](Resources/image/Clip_2024-11-02_19-18-14.png)
 
 可以管理农历生日与公历生日
 

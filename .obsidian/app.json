@@ -3,5 +3,6 @@
   "showUnsupportedFiles": true,
   "useMarkdownLinks": true,
   "newLinkFormat": "absolute",
-  "promptDelete": false
+  "promptDelete": false,
+  "readableLineLength": false
 }

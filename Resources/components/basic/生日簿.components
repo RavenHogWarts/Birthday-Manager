@@ -15,13 +15,13 @@
           "componentId": "a1e3c7d2-133f-4f5f-a3d8-e004b1c66166"
         }
       ],
-      "layoutType": "column"
+      "layoutType": "tab"
     },
     {
       "id": "a1e3c7d2-133f-4f5f-a3d8-e004b1c66166",
       "type": "dynamicDataView",
       "titleAlign": "center",
-      "tabTitle": "",
+      "tabTitle": "生日簿",
       "maxWidthRatio": -1,
       "showBorder": false,
       "showShadow": false,
@@ -37,7 +37,7 @@
           "isShow": true,
           "wrap": false,
           "options": {
-            "width": "157"
+            "width": "115"
           },
           "alias": "名称"
         },
@@ -57,7 +57,7 @@
           "isShow": true,
           "type": "text",
           "options": {
-            "width": "180"
+            "width": "168"
           },
           "alias": "农历生日"
         },
@@ -109,7 +109,7 @@
                 "color": "components--color-gray"
               }
             ],
-            "width": "77"
+            "width": "73"
           },
           "alias": "类型"
         },
@@ -119,7 +119,7 @@
           "isShow": true,
           "type": "markdown",
           "options": {
-            "width": "371"
+            "width": "391"
           },
           "alias": "下次生日",
           "wrap": true

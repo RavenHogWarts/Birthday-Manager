@@ -36,6 +36,9 @@ components插件为付费插件，需要购买激活后才能使用本库。
 
 ![](Resources/image/usage.gif)
 
+### 高级用法
+![](Resources/image/advanced.png)
+
 ## 如何下载
 点击右上角的"Code"按钮，选择"Download ZIP"下载压缩包。
 

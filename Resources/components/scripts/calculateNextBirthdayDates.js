@@ -14,14 +14,27 @@ exports.default = {
   `
 }
 
+// 自定义笔记属性名称，值根据实际情况修改，可以为中文
+const birthdaySolarProperty = "birthdaySolar";  // 公历生日
+const birthdayLunarProperty = "birthdayLunar";  // 农历生日
+const birthdayTypeProperty = "birthdayType";  // 生日类型
+const nextBirthdayProperty = "nextBirthday";  // 下一个生日日期, 纯日期格式
+const nextBirthdayStringProperty = "nextBirthdayString";  // 下一个生日日期, 有样式
+const animalProperty = "animal";  // 生肖
+const zodiacProperty = "zodiac";  // 星座
+
+// nextBirthdayStringProperty的样式显示方式，row表示横向排列，column表示纵向排列
+const flexDirection = "column";
+const flexClass = flexDirection === "column" ? "components--flex-column" : "components--flex-row";
+
 async function calculateNextBirthdayDates() {
   const file = this.currentFile;
   const metadata = app.metadataCache.getFileCache(file);
   const frontmatter = metadata?.frontmatter;
 
-  let birthdaySolar = frontmatter?.["birthdaySolar"];
-  let birthdayLunar = frontmatter?.["birthdayLunar"];
-  const birthdayType = frontmatter?.["birthdayType"];
+  let birthdaySolar = frontmatter?.[birthdaySolarProperty];
+  let birthdayLunar = frontmatter?.[birthdayLunarProperty];
+  const birthdayType = frontmatter?.[birthdayTypeProperty];
   let nextBirthday;
 
   const now = new Date();
@@ -30,34 +43,40 @@ async function calculateNextBirthdayDates() {
   if(birthdaySolar && (birthdayType == "Solar" || birthdayType == "公历")){
     const lunarBirthday = convertSolarToLunar(birthdaySolar, "Zh");
     let [formatNextBirthday, nextLunarBirthday] = getNextSolarBirthday(birthdaySolar);
-    let nextBirthdayString = `<span class=\"components--tag  components--color-purple\">公历：${formatNextBirthday}</span><span class=\"components--tag  components--color-green\">农历：${nextLunarBirthday}</span>`;
+    let nextBirthdayString = '';
+
+    nextBirthdayString += `<span class=\"components--tag  components--color-purple\">公历：${formatNextBirthday}</span>\n`;
+    nextBirthdayString += `<span class=\"components--tag  components--color-green\">农历：${nextLunarBirthday}</span>`;
 
     if(isTodayBirthday(birthdaySolar, birthdayType)){
-      nextBirthdayString = `<span class=\"components--tag  components--color-orange\">今天生日！</span>${nextBirthdayString}`;
+      nextBirthdayString = `<span class=\"components--tag  components--color-orange\">今天生日！</span>\n${nextBirthdayString}`;
       formatNextBirthday = today;
     }
 
     updateFrontMatter(file, (frontmatter) => {
-      frontmatter["birthdayLunar"] = lunarBirthday;
-      frontmatter["nextBirthday"] = formatNextBirthday;
-      frontmatter["nextBirthdayString"] = `<div class=\"components--space components--flex-row\" style=\"gap: 4px;\">${nextBirthdayString}</div>`;
+      frontmatter[birthdayLunarProperty] = lunarBirthday;
+      frontmatter[nextBirthdayProperty] = formatNextBirthday;
+      frontmatter[nextBirthdayStringProperty] = `<div class=\"components--space ${flexClass}\" style=\"gap: 4px; margin-bottom: 4px;\">\n${nextBirthdayString}\n</div>`;
     });
   }
   else if(birthdayLunar && (birthdayType == "Lunar" || birthdayType == "农历")){
     birthdayLunar = birthdayLunar.replace(/零/g, "〇");
     const solarBirthday = convertLunarToSolar(birthdayLunar, "Zh");
     let [formatNextBirthday, nextLunarBirthday] = getNextLunarBirthday(birthdayLunar);
-    let nextBirthdayString = `<span class=\"components--tag  components--color-purple\">公历：${formatNextBirthday}</span><span class=\"components--tag  components--color-green\">农历：${nextLunarBirthday}</span>`;
+    let nextBirthdayString = '';
+
+    nextBirthdayString += `<span class=\"components--tag  components--color-purple\">公历：${formatNextBirthday}</span>\n`;
+    nextBirthdayString += `<span class=\"components--tag  components--color-green\">农历：${nextLunarBirthday}</span>`;
 
     if(isTodayBirthday(birthdayLunar, birthdayType)){
-      nextBirthdayString = `<span class=\"components--tag  components--color-yellow\">今天生日！</span>${nextBirthdayString}`;
+      nextBirthdayString = `<span class=\"components--tag  components--color-orange\">今天生日！</span>\n${nextBirthdayString}`;
       formatNextBirthday = today;
     }
 
     updateFrontMatter(file, (frontmatter) => {
-      frontmatter["birthdaySolar"] = solarBirthday;
-      frontmatter["nextBirthday"] = formatNextBirthday;
-      frontmatter["nextBirthdayString"] = `<div class=\"components--space components--flex-row\" style=\"gap: 4px;\">${nextBirthdayString}</div>`;
+      frontmatter[birthdaySolarProperty] = solarBirthday;
+      frontmatter[nextBirthdayProperty] = formatNextBirthday;
+      frontmatter[nextBirthdayStringProperty] = `<div class=\"components--space ${flexClass}\" style=\"gap: 4px; margin-bottom: 4px;\">\n${nextBirthdayString}\n</div>`;
     });
   }
   else{
@@ -65,16 +84,16 @@ async function calculateNextBirthdayDates() {
   }
 
   // 更新
-  birthdaySolar = frontmatter?.["birthdaySolar"];
-  birthdayLunar = frontmatter?.["birthdayLunar"].replace(/零/g, "〇");
-  nextBirthday = frontmatter?.["nextBirthday"];
+  birthdaySolar = frontmatter?.[birthdaySolarProperty];
+  birthdayLunar = frontmatter?.[birthdayLunarProperty].replace(/零/g, "〇");
+  nextBirthday = frontmatter?.[nextBirthdayProperty];
 
   const animal = getAnimalByLunar(birthdayLunar);
   const zodiac = getZodiacBySolar(birthdaySolar);
 
   updateFrontMatter(file, (frontmatter) => {
-    frontmatter["animal"] = animal;
-    frontmatter["zodiac"] = zodiac;
+    frontmatter[animalProperty] = animal;
+    frontmatter[zodiacProperty] = zodiac;
   });
 
   return getDaysUntilNextBirthday(birthdaySolar, nextBirthday);

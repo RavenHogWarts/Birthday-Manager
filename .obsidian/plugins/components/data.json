@@ -1,0 +1,10 @@
+{
+  "folder": "Resources/components/basic",
+  "createComponentSilent": false,
+  "scriptFolder": "Resources/components/scripts",
+  "DEFAULT_SETTINGS": {
+    "folder": "",
+    "createComponentSilent": false,
+    "scriptFolder": "components/scripts"
+  },
+}

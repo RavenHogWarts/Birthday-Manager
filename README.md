@@ -36,6 +36,8 @@ components插件为付费插件，需要购买激活后才能使用本库。
 
 ![](Resources/image/usage.gif)
 
+[演示视频](https://www.bilibili.com/video/BV1MpyeYwEdq/)
+
 ### 高级用法
 ![](Resources/image/advanced.png)
 
